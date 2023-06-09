@@ -1,5 +1,3 @@
-# Final Project Template
-
 **THIS README IS INTENDED TO HELP YOU GET STARTED WITH THE PROJECT.**
 
 ## First Time Setup
