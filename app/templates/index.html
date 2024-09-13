@@ -1,18 +1,61 @@
 {% extends "layout.html" %}
 
-{% block body %}
-    <h1>ToDo List:</h1>
-    <a href="/task-entry">Add a new task</a>
-    <form action="/" method="post">
-        <table>
-            {% for task in todo_list %}
-                <tr>
-                    <td>{{ task['description'] }}</td>
-                    <td><input type="checkbox" name="task_item" value={{ task['id'] }}></td>
-                </tr>
-            {% endfor %}
-        </table>
-        <input type="submit" value="Delete Tasks">
-    </form>
-    </ul>
+{% block content %}
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Library Name</span>
+  </div>
+</nav>
+
+<div class="container my-md-4 p-3">
+  <div class="row">
+    <div class="card col-4 p-3 mx-4" style="width: 15rem">
+      <img src="static/ginger.jpg" class="card-img-top" alt="The Ginger Tree" />
+      <div class="card-body">
+        <p class="card-text">The Ginger Tree</p>
+      </div>
+    </div>
+    <div class="card col-4 p-3 mx-4" style="width: 15rem">
+      <img src="static/mockingbird.jpg" class="card-img-top" alt="To Kill a Mockingbird"" />
+      <div class=" card-body">
+      <p class="card-text">To Kill a Mockingbird</p>
+    </div>
+  </div>
+  <div class="card col-4 p-3 mx-4" style="width: 15rem">
+    <img src="static/becoming.jpg" class="card-img-top" alt="Becoming" />
+    <div class="card-body">
+      <p class="card-text">Becoming</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-3">
+      <h4>Retrieve a Transaction</h4>
+    </div>
+    <div class="col-4">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Enter Trans ID" aria-label="Search" />
+        <button class="btn btn-outline-success" type="submit">Go!</button>
+      </form>
+    </div>
+    <div class="col-3 mt-4"></div>
+    <div class="col-3 mt-4">
+      <h4>Delete a Transaction</h4>
+    </div>
+    <div class="col-4 mt-4">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Enter Trans ID" aria-label="Search" />
+        <button class="btn btn-outline-success" type="submit">Go!</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-12 mt-5" style="display: flex; justify-content: center">
+    <button type="button" class="btn btn-secondary btn-lg">View available books</button>
+  </div>
+</div>
+
 {% endblock %}
