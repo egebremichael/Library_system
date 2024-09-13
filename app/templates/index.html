@@ -1,61 +1,159 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags and other head elements -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ribeye+Marrow&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mate+SC&display=swap">
+    <style>
+        body {
+            font-family: 'Play', sans-serif;
+            font-size: 15px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .form-container {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .navbar-brand {
+            font-family: 'Ribeye Marrow', cursive;
+            font-size: 1.875rem;
+            padding-left: 30px;
+          
+        }
+        .heading {
+            font-family: 'Mate Sc', serif;
+            font-size: 3rem;
+        }
+        .main-content {
+            position: relative;
+            background-image: url('static/background.jpg');
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8); /* White tint with 30% opacity */
+            z-index: 1; /* Ensure it sits above the background image but below content */
+        }
+        .main-content > * {
+            position: relative;
+            z-index: 2; /* Ensure content is above the overlay */
+        }
+
+        .btn-dark {
+            background-color: black;
+            border-color: black;
+            font-size: 1rem;
+        }
+        .btn-dark:hover {
+            background-color: #333;
+            border-color: #333;
+        }
+        .container {
+            padding: 0 15px; /* Optional: ensure padding for better responsiveness */
+        }
+    </style>
+</head>
+<body>
+
 <nav class="navbar navbar-dark bg-dark">
-  <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1">Library Name</span>
-  </div>
+    <span class="navbar-brand mb-0 h1" style="font-family: 'Ribeye Marrow', sans-serif;"> Book Avenue</span>
+    <div class="form-container">
+        <form class="d-flex me-2">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <button class="btn btn-outline-light" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+        <button class="btn btn-outline-light">
+            <i class="bi bi-person"></i>
+        </button>
+    </div>
 </nav>
 
-<div class="container my-md-4 p-3">
-  <div class="row">
-    <div class="card col-4 p-3 mx-4" style="width: 15rem">
-      <img src="static/ginger.jpg" class="card-img-top" alt="The Ginger Tree" />
-      <div class="card-body">
-        <p class="card-text">The Ginger Tree</p>
-      </div>
+<div class="container main-content my-md-4 p-3">
+    <h2 class="heading mb-4">Hot Reads Right Now</h2>
+    <div class="row">
+        <div class="card col-2 p-3 mx-2" style="width: 15rem">
+            <img src="static/the-paris-apartment.png" class="card-img-top" alt="The Paris Apartment" />
+            <div class="card-body">
+                <p class="card-text">The Paris Apartment</p>
+            </div>
+        </div>
+        <div class="card col-2 p-3 mx-2" style="width: 15rem">
+            <img src="static/it-ends-with-us.png" class="card-img-top" alt="It Ends with Us" />
+            <div class="card-body">
+                <p class="card-text">It Ends with Us</p>
+            </div>
+        </div>
+        <div class="card col-2 p-3 mx-2" style="width: 15rem">
+            <img src="static/the-last-storm.png" class="card-img-top" alt="he Last Storm" />
+            <div class="card-body">
+                <p class="card-text">The Last Storm</p>
+            </div>
+        </div>
+        <div class="card col-2 p-3 mx-2" style="width: 15rem">
+            <img src="static/woman-on-fire.png" class="card-img-top" alt="Woman on Fire" />
+            <div class="card-body">
+                <p class="card-text">Woman on Fire</p>
+            </div>
+        </div>
+        <div class="card col-2 p-3 mx-2" style="width: 15rem">
+            <img src="static/the-housemaid.png" class="card-img-top" alt="The Housemaid" />
+            <div class="card-body">
+                <p class="card-text">The Housemaid</p>
+            </div>
+        </div>
     </div>
-    <div class="card col-4 p-3 mx-4" style="width: 15rem">
-      <img src="static/mockingbird.jpg" class="card-img-top" alt="To Kill a Mockingbird"" />
-      <div class=" card-body">
-      <p class="card-text">To Kill a Mockingbird</p>
+    <div class="text-center mt-4">
+        <button type="button" class="btn btn-dark btn-lg me-2">Rent a Book</button>
+        <button type="button" class="btn btn-dark btn-lg">Return a Book</button>
     </div>
-  </div>
-  <div class="card col-4 p-3 mx-4" style="width: 15rem">
-    <img src="static/becoming.jpg" class="card-img-top" alt="Becoming" />
-    <div class="card-body">
-      <p class="card-text">Becoming</p>
-    </div>
-  </div>
-</div>
 </div>
 
 <div class="container">
-  <div class="row">
-    <div class="col-3"></div>
-    <div class="col-3">
-      <h4>Retrieve a Transaction</h4>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-3">
+            <h4>Search for a Book</h4>
+        </div>
+        <div class="col-4">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Enter Book Title" aria-label="Search" />
+                <button class="btn btn-dark" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
     </div>
-    <div class="col-4">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Enter Trans ID" aria-label="Search" />
-        <button class="btn btn-outline-success" type="submit">Go!</button>
-      </form>
+    <div class="col-12 mt-5" style="display: flex; justify-content: center">
+        <button type="button" class="btn btn-dark btn-lg">View available books</button>
     </div>
-    <div class="col-3 mt-4"></div>
-    <div class="col-3 mt-4">
-      <h4>Delete a Transaction</h4>
-    </div>
-    <div class="col-4 mt-4">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Enter Trans ID" aria-label="Search" />
-        <button class="btn btn-outline-success" type="submit">Go!</button>
-      </form>
-    </div>
-  </div>
-  <div class="col-12 mt-5" style="display: flex; justify-content: center">
-    <button type="button" class="btn btn-secondary btn-lg">View available books</button>
-  </div>
 </div>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>&copy; 2022 Book Avenue. All rights reserved.</p>
+</footer>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
 {% endblock %}
