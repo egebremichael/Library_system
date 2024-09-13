@@ -1,78 +1,84 @@
+# Imports for built-in Python libraries
 import os
 import uuid
 import csv
+import logging  # For error logging
+
+# Imports for 3rd-party libraries
 from flask import Flask, g
 from dotenv import load_dotenv
-import utils.db as DBUtils
 
-# Load environment variables from .env file
+# Imports for blueprints and other modules
+import utils.db as DBUtils 
+from flask import render_template
+
+
+# Load environment variables from .env file if available
 load_dotenv()
 
-# Create an instance of the Flask application
+# Create Flask app instance
 app = Flask(__name__)
 
-# Add configuration data to your application
-app.config["DATABASE"] = os.getenv("DATABASE")
-app.config["DBHOST"] = os.getenv("DBHOST")
-app.config["DBUSERNAME"] = os.getenv("DBUSERNAME")
-app.config["DBPASSWORD"] = os.getenv("DBPASSWORD")
 
-# Debug print statements to verify that environment variables are loaded
-print("Database:", app.config["DATABASE"])
-print("Host:", app.config["DBHOST"])
-print("Username:", app.config["DBUSERNAME"])
-print("Password:", app.config["DBPASSWORD"])
 
-# Useful if you decide to create session cookies
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# Set up app configurations for database connection
+app.config["DATABASE"] = os.getenv("DATABASE", "library_db")
+app.config["DBHOST"] = os.getenv("DBHOST", "localhost")
+app.config["DBUSERNAME"] = os.getenv("DBUSERNAME", "root")
+app.config["DBPASSWORD"] = os.getenv("DBPASSWORD", "")
+
+# Secret key for session management (if required)
 app.config["SECRET_KEY"] = uuid.uuid4().hex
 
-# Setup Views
-# Ensure these blueprints exist and are correctly implemented
-try:
-    from views.task_view import task_list_blueprint
-    from api.task_api import task_api_blueprint
-    app.register_blueprint(task_list_blueprint)
-    app.register_blueprint(task_api_blueprint)
-except ImportError as e:
-    print(f"Import error: {e}")
+# Setup logging to track errors
+logging.basicConfig(level=logging.DEBUG)
 
 # Helper function to establish a connection to the database
 def connect_db():
-    if not hasattr(g, 'mysql_db'):
-        g.mysql_db = DBUtils.connect_db(app.config)
-    if not hasattr(g, 'mysql_cursor'):
-        g.mysql_cursor = g.mysql_db.cursor(dictionary=True)
+    try:
+        if not hasattr(g, 'mysql_db'):
+            g.mysql_db = DBUtils.connect_db(app.config)  # Connecting to the DB
+        if not hasattr(g, 'mysql_cursor'):
+            g.mysql_cursor = g.mysql_db.cursor(
+                dictionary=True)  # Cursor for queries
+    except Exception as e:
+        logging.error(f"Error connecting to database: {e}")
 
 # Helper function to release the connection to the database
 def disconnect_db():
-    if hasattr(g, 'mysql_cursor'):
-        g.mysql_cursor.close()
-    if hasattr(g, 'mysql_db'):
-        g.mysql_db.close()
+    try:
+        if hasattr(g, 'mysql_cursor'):
+            g.mysql_cursor.close()
+        if hasattr(g, 'mysql_db'):
+            g.mysql_db.close()
+    except Exception as e:
+        logging.error(f"Error disconnecting from database: {e}")
 
-# Command to initialize the database
+# Custom Flask CLI command to initialize the database
 @app.cli.command('initdb')
 def initdb_cli_command():
     try:
-        DBUtils.init_db(app.config, "app/book_data.csv", "app/customer_data.csv")
+        DBUtils.init_db(app.config, "app/book_data.csv",
+                        "app/customer_data.csv")
+        print("Database initialized successfully.")
     except Exception as e:
-        print(f"Error initializing database: {e}")
+        logging.error(f"Error initializing the database: {e}")
 
-# Function called before all requests
+# Function called before each request to the webservice
 @app.before_request
-def before():
+def before_request():
     connect_db()
 
-# Function called after all requests
+# Function called after each webservice request
 @app.after_request
-def after(response):
+def after_request(response):
     disconnect_db()
     return response
 
-print("Loading environment variables...")
-load_dotenv()
-
-
-# Run the application
-if __name__ == '__main__':
-    app.run(debug=True)
+# Run the Flask app
+if __name__ == "__main__":
+     app.run(debug=True, host="0.0.0.0", port=3000)
